@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    api_url: 'TODO:'
+    api_url: 'https://proeventsxd.herokuapp.com'
 };
