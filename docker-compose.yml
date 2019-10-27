@@ -1,0 +1,77 @@
+version: "2"
+
+services:  
+  database:
+    image: mariadb
+    container_name: pro-events-xd-db
+    restart: always
+    networks:
+      - proeventsxd
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=proeventsxdroot
+      - MYSQL_DATABASE=proeventsxd
+      - MYSQL_USER=proeventsxd
+      - MYSQL_PASSWORD=proeventsxd
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+      
+  api:
+    build: ./api
+    container_name: events-api
+    depends_on:
+      - database
+    restart: always
+    networks:
+      - proeventsxd
+    ports:
+      - 3000:3000
+    volumes:
+      - ./api/src:/usr/app/src
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=1000
+      - DB_HOST=database
+      - DB_PORT=3306
+      - DB_USERNAME=proeventsxd
+      - DB_PASSWORD=proeventsxd
+      - DB_NAME=proeventsxd
+      - DB_DROP=false
+
+  client:
+    build: ./client
+    container_name: events-client
+    restart: always
+    networks:
+      - proeventsxd
+    ports:
+      - 4200:4200
+    volumes:
+      - ./client/src:/usr/client/src
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=1000
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: devshape-phpmyadmin
+    restart: always
+    networks:
+      - proeventsxd
+    depends_on:
+      - database
+    ports:
+      - 80:80
+    environment:
+      - PMA_HOST=database
+      - MYSQL_ROOT_PASSWORD=proeventsxd
+
+networks:
+  proeventsxd:
+
+volumes:
+  db_data:
+  conf:
+  vhost:
+  html:
+  certs:

@@ -1,0 +1,47 @@
+<div class="ui-g" *ngIf="event">
+    <div class="ui-g-12 ui-lg-6 image">
+        <img [src]="event.image" />
+        <h1>{{event.title}}</h1>
+    </div>
+    <div class="ui-g-12 ui-lg-6">
+        <div class="ui-g">
+            <div class="ui-g-12 ui-md-12">
+                <i class="pi pi-calendar" style="font-size: 3em"></i> {{event.date | date: 'long'}}
+            </div>
+            <div class="ui-g-12 ui-md-12 description">
+                <p class="break-word">{{event.description}}</p>
+            </div>
+            <div class="ui-g-12 ui-md-12 text-center">
+                <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                    [src]="mapUrl"></iframe>
+                <i class="pi pi-home" style="font-size: 3em"></i>
+                <p class="break-word">{{event.address}}</p>
+            </div>
+            <div class="ui-g-12 ui-md-6 text-center">
+                <i class="pi pi-user-edit" style="font-size: 3em"></i>
+                <p class="break-word"><a href="mailto:{{event.email}}">{{event.email}}</a></p>
+            </div>
+            <div class="ui-g-12 ui-md-6 text-center">
+                <i class="pi pi-comments" style="font-size: 3em"></i>
+                <p class="break-word">{{event.phone}}</p>
+            </div>
+            <div class="ui-g-12 ui-md-12 text-center">
+                <button pButton type="button" label="Delete" class="ui-button-rounded ui-button-danger"
+                    (click)="showDeleteDialog()"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="deleteDialog">
+    <p-header>
+        Event delete
+    </p-header>
+    Are you sure you want to delete the event?
+    <p-footer>
+        <button pButton type="button" label="Cancel" class="ui-button-rounded ui-button-primary"
+            (click)="deleteDialog = false"></button>
+        <button pButton type="button" label="Delete" class="ui-button-rounded ui-button-danger"
+            (click)="deleteEvent()"></button>
+    </p-footer>
+</p-dialog>

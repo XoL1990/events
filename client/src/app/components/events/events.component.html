@@ -1,0 +1,20 @@
+<div class="ui-g">
+    <div class="ui-g-12 ui-md-12">
+        <h1 class="title">Events <i class="pi pi-plus plus-icon" (click)="createEvent()"></i></h1>
+    </div>
+    <div class="ui-g-12 ui-xl-3 ui-lg-4 ui-md-6" *ngFor="let event of events">
+        <div class="event" [routerLink]="['event', event.id]">
+            <img [src]="event.image" />
+            <h1>{{event.title}}</h1>
+            <div class="date">{{event.date | date: 'short'}}</div>
+            <div class="place">{{event.place}}</div>
+        </div>
+    </div>
+</div>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<p-dialog header="Create event" [(visible)]="displayCreateEventForm" [style]="{width: '70%'}">
+    <app-create-event [visiblity]="displayCreateEventForm" (closeClick)="onCreateEventFormClose($event)">
+    </app-create-event>
+</p-dialog>

@@ -1,0 +1,134 @@
+<div class="ui-g">
+    <div class="ui-g-12 ui-md-12">
+        <form [formGroup]="eventForm" (ngSubmit)="onSubmit(eventForm.value)">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-9">
+                        <span class="ui-float-label">
+                            <input pInputText id="title" type="text" formControlName="title">
+                            <label for="title">Title</label>
+                        </span>
+                    </div>
+                    <div class="ui-grid-col-3">
+                        <p-message severity="error" text="Title is required"
+                            *ngIf="eventForm.controls['title'].errors && eventForm.controls['title'].errors.required && !eventForm.controls['title'].valid && eventForm.controls['title'].dirty">
+                        </p-message>
+                        <p-message severity="error" text="The maximum text length is 255 characters"
+                            *ngIf="eventForm.controls['title'].errors && eventForm.controls['title'].errors.maxlength && !eventForm.controls['title'].valid && eventForm.controls['title'].dirty">
+                        </p-message>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-9">
+                        <span class="ui-float-label">
+                            <p-calendar id="date" [showTime]="true" [hideOnDateTimeSelect]="true"
+                                formControlName="date">
+                            </p-calendar>
+                            <label for="date">Event date</label>
+                        </span>
+                    </div>
+                    <div class="ui-grid-col-3">
+                        <p-message severity="error" text="Event date is required"
+                            *ngIf="!eventForm.controls['date'].valid && eventForm.controls['date'].dirty">
+                        </p-message>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-9">
+                        <span class="ui-float-label">
+                            <textarea id="description" pInputTextarea rows="6" type="text"
+                                formControlName="description"></textarea>
+                            <label for="description">Description</label>
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-9">
+                        Image:<br />
+                        <p-fileUpload #imageUpload customUpload="true" [showUploadButton]="false"
+                            [showCancelButton]="true" accept="image/*" maxFileSize="1000000"
+                            (onSelect)="onSelectImage($event)" (onRemove)="onRemoveImage()" (onClear)="onClearImage()">
+                        </p-fileUpload>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-9">
+                        <p-dropdown id="type" [options]="types" formControlName="type"></p-dropdown>
+                    </div>
+                    <div class="ui-grid-col-3">
+                        <p-message severity="error" text="Type is required"
+                            *ngIf="!eventForm.controls['type'].valid && eventForm.controls['type'].dirty">
+                        </p-message>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-9">
+                        <span class="ui-float-label">
+                            <input pInputText [pKeyFilter]="phoneKeyRegex" id="phone" type="text"
+                                formControlName="phone">
+                            <label for="phone">Phone number</label>
+                        </span>
+                    </div>
+                    <div class="ui-grid-col-3">
+                        <p-message severity="error" text="Phone number is required"
+                            *ngIf="eventForm.controls['phone'].errors && eventForm.controls['phone'].errors.required && !eventForm.controls['phone'].valid && eventForm.controls['phone'].dirty">
+                        </p-message>
+                        <p-message severity="error" text="Phone must be valid"
+                            *ngIf="eventForm.controls['phone'].errors && eventForm.controls['phone'].errors.maxlength && !eventForm.controls['phone'].valid && eventForm.controls['phone'].dirty">
+                        </p-message>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-9">
+                        <span class="ui-float-label">
+                            <input pInputText id="email" type="text" formControlName="email">
+                            <label for="email">Email</label>
+                        </span>
+                    </div>
+                    <div class="ui-grid-col-3">
+                        <p-message severity="error" text="Email is required"
+                            *ngIf="eventForm.controls['email'].errors && eventForm.controls['email'].errors.required && !eventForm.controls['email'].valid && eventForm.controls['email'].dirty">
+                        </p-message>
+                        <p-message severity="error" text="Email must be valid"
+                            *ngIf="eventForm.controls['email'].errors && eventForm.controls['email'].errors.email && !eventForm.controls['email'].valid && eventForm.controls['email'].dirty">
+                        </p-message>
+                        <p-message severity="error" text="The maximum text length is 255 characters"
+                            *ngIf="eventForm.controls['email'].errors && eventForm.controls['email'].errors.maxlength && !eventForm.controls['email'].valid && eventForm.controls['email'].dirty">
+                        </p-message>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-9">
+                        <span class="ui-float-label">
+                            <input #addressInput pInputText id="address" type="text" formControlName="address"
+                                placeholder="">
+                            <label for="address">Address</label>
+                        </span>
+                    </div>
+                    <div class="ui-grid-col-3">
+                        <p-message severity="error" text="Address is required"
+                            *ngIf="eventForm.controls['address'].errors && eventForm.controls['address'].errors.required && !eventForm.controls['address'].valid && eventForm.controls['address'].dirty">
+                        </p-message>
+                        <p-message severity="error" text="The maximum text length is 255 characters"
+                            *ngIf="eventForm.controls['address'].errors && eventForm.controls['address'].errors.maxlength && !eventForm.controls['address'].valid && eventForm.controls['address'].dirty">
+                        </p-message>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <button pButton type="button" label="Cancel" class="ui-button-rounded ui-button-secondary"
+                            (click)="close()"></button>
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <button pButton type="button" label="Clear" class="ui-button-rounded ui-button-warning"
+                            (click)="clear()"></button>
+                    </div>
+                    <div class="ui-grid-col-4">
+                        <button pButton type="submit" label="Create" [disabled]="!eventForm.valid"
+                            class="ui-button-rounded"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
