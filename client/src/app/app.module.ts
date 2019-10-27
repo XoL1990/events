@@ -39,7 +39,6 @@ import { GraphQLModule } from './graphql.module';
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-
         ToastModule,
         CalendarModule,
         MessagesModule,
