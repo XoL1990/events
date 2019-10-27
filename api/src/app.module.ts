@@ -7,8 +7,9 @@ import { EventsModule } from './modules/events/events.module';
         EventsModule,
         GraphQLModule.forRoot({
             autoSchemaFile: 'schema.gql',
-            playground: true,
-            debug: true,
+            playground: process.env.PROD ? false : true,
+            debug: process.env.PROD ? false : true,
+            introspection: process.env.PROD ? true : false,
         }),
     ],
 })
